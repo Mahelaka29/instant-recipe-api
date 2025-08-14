@@ -1,0 +1,87 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-direction: column;
+        padding: 20px;
+        height: 100vh;
+
+}
+
+.recipe-container{
+max-width: 800px;
+    margin: 40px auto;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+
+.recipe-container img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.recipe-container h1 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.recipe-container h2 {
+    font-size: 1.4rem;
+    margin-top: 30px;
+    color: #444;
+}
+
+.recipe-container p {
+    color: #555;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.recipe-container ul {
+    padding-left: 20px;
+    color: #555;
+}
+
+.recipe-container strong {
+    font-weight: bold;
+    color: #000;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    color: rgb(215, 173, 7);
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.button-group {
+    display: flex;
+    gap: 16px;
+    margin-top: 30px;
+}
+
+.button-group a {
+    background-color: rgb(215, 173, 7);
+    color: #ffffff;
+    padding: 12px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.button-group a:hover {
+    background-color: #333;
+}

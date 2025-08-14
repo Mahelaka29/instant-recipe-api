@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login - Instant Recipe</title>
+  <link rel="stylesheet" href="/style/formstyle.css" />
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <div class="form-container">
+    <h2>Login to Your Account</h2>
+    
+    <% if (error) { %>
+      <div class="error"><%= error %></div>
+    <% } %>
+
+    <form action="/login" method="POST">
+      <label>Email</label>
+      <input type="email" name="email" required />
+
+      <label>Password</label>
+      <input type="password" name="password" required />
+
+      <button type="submit">Login</button>
+    </form>
+
+    <p style="margin-top: 10px;">New here? <a href="/signup">Create Account</a></p>
+
+    <hr />
+
+    <a href="/auth/google">
+      <button>Login with Google</button>
+    </a>
+  </div>
+
+  <%- include('partials/footer') %>
+</body>
+</html>

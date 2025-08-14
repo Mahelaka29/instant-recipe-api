@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Recipe Results</title>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <link rel="stylesheet" href="../style/result.css" />
+  </head>
+  <body>
+<div class="container">
+    <h1><%=userSearchFor %> Recipe Results</h1>
+  <div class="recipe-container">
+    <% recipes.forEach(recipe => { %>
+      <div class="recipe-card">
+        <div class="recipe-content">
+          <h3><%= recipe.title %></h3>
+          <img src="<%= recipe.image %>" alt="<%= recipe.title %>" class="recipe-img" />
+          <p><strong>Ready in:</strong> <%= recipe.readyInMinutes %> minutes</p>
+          <p><strong>Ingredients:</strong></p>
+          <ul>
+            <% recipe.ingredients?.forEach(ing => { %>
+              <li><%= ing.original %></li>
+            <% }) %>
+          </ul>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 10px;">
+            <a href="/recipe/<%= recipe.id %>" class="instruction-url">Read Instructions</a>
+            <% if (user) { %>
+              <form method="POST" action="/favourites/<%= recipe.id %>" style="margin: 0;">
+                <input type="hidden" name="title" value="<%= recipe.title %>" />
+                <input type="hidden" name="image" value="<%= recipe.image %>" />
+                <input type="hidden" name="readyInMinutes" value="<%= recipe.readyInMinutes %>" />
+                <button type="submit" title="Save to Favourites"  style="background: none; border: none; font-size: 1em; cursor: pointer; color: #e63946; margin-left: 10px;">
+
+                <i class="fa-solid fa-heart" style="color: #e63946; margin-left: 8px;" title="Favourite"></i>
+                </button>
+              </form>
+            <% } else { %>
+              <button onclick="alert('Please log in to save favourites!'); window.location.href='/login';" title="Save to favourites" style="background: none; border: none; font-size: 1em; cursor: pointer;"> 
+                <i class="fa-solid fa-heart" style="color: #e63946; margin-left: 8px;" title="Favourite">
+                  
+                </i></button>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</div>
+
+      <a href="/" class="navigation-link">Search Again </a>
+    </div>
+  </body>
+</html>

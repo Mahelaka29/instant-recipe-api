@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Instant Recipe - Finder</title>
+    <link rel="stylesheet" href="style/main.css" />
+  </head>
+  <body>
+    <%- include('partials/header') %>
+
+    <section class="hero">
+      <div class="overlay">
+        <div style="position: absolute; top: 20px; right: 30px; z-index: 100">
+          <% if (user) { %>
+          <span style="color: white; margin-right: 10px">
+            Hi, <%= user.username %></span
+          >
+          <a
+            href="/favourites"
+            style="
+              color: white;
+              text-decoration: none;
+              font-weight: bold;
+             margin-right: 10px
+            "
+            >My Favourite</a
+          >
+
+          <a
+            href="/logout"
+            onclick="return confirm('Are you sure you want to log out?');"
+            style="color: white; text-decoration: none; font-weight: bold"
+            >Logout</a
+          >
+          <% } else { %>
+          <a
+            href="#"
+            onclick="alert('Please log in to view your favourite recipes!'); window.location.href='/login'; return false;"
+            style="
+              color: white;
+              text-decoration: none;
+              font-weight: bold;
+              margin-right: 10px
+            "
+            >My Favourite</a
+          >
+          <a
+            href="/login"
+            style="
+              color: white;
+              text-decoration: none;
+              margin-right: 15px;
+              font-weight: bold;
+            "
+            >Login</a
+          >
+          <a
+            href="/signup"
+            style="color: white; text-decoration: none; font-weight: bold"
+            >Sign Up</a
+          >
+          <% } %>
+
+          <!-- //logout notificaion -->
+          <% if (loggedOut) { %>
+          <script>
+            alert("You have been logged out!");
+          </script>
+          <% } %>
+        </div>
+
+        <div class="heading-wrapper">
+          <h1 id="prompt-header">Craving Something?</h1>
+        </div>
+
+        <form action="/search" method="post" id="search_bar">
+          <input
+            type="text"
+            name="food"
+            id="search_food"
+            placeholder="Search your favorite food..."
+          />
+          <input type="submit" value="Search" />
+        </form>
+
+        <p class="suggestions">
+          Try: Pasta, Salad, Egg, Burger, Chocolate, and more...
+        </p>
+
+        <% if (errorMessage) { %>
+        <div class="error"><%= errorMessage %></div>
+        <% } %>
+      </div>
+    </section>
+
+    <%- include('partials/footer') %>
+  </body>
+</html>

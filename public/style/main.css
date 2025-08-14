@@ -1,0 +1,121 @@
+/* body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif; 
+    display: flex;
+    align-items: center;
+} */
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    /* 🔥 This hides scrollbars */
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.hero {
+    position: relative;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+        url("../images/bg1.jpg") center/cover no-repeat;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+/* .heading-wrapper {
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 10px 30px;
+    border-radius: 8px;
+} */
+
+
+#prompt-header {
+    font-size: 65px;
+    color: aliceblue;
+    margin-top: 0;
+    margin-bottom: 25px;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.9);
+}
+
+
+#search_bar{
+    width: 100%;
+    min-width: 600px;
+}
+
+
+#search_food{
+    padding: 10px 130px;
+    font-size: large;
+    outline:none;
+
+}
+
+input[type=submit] {
+    padding: 12px 30px;
+    font-size: large;
+    /* text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); */
+    background-color: rgb(255, 217, 0);
+    outline: none;
+    border: solid aliceblue 1px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+input[type=submit]:hover {
+    background-color: #333;
+    color: white;
+}
+
+
+::placeholder{
+    color: gray;
+}
+
+
+.suggestions{
+    color: white;
+    background-color: rgba(0, 0, 0, 0.215);
+    padding: 10px 20px;
+    border-radius: 1px;
+    word-spacing: 5px;
+}
+
+.btn{
+    display: inline-block; 
+    padding: 10px 20px; 
+    background: black; 
+    color: white; 
+    border-radius: 5px; 
+    text-decoration: none;
+}
+
+.error{
+    color: gainsboro;
+    text-align: center;
+}
+
+
+/* logout notification */
+/* .notification{
+background: rgba(34, 197, 94, 0.9);
+
+color: white;
+padding: 10px 20px;
+border-radius: 8px;
+margin-top: 10px;
+font-weight: bold;
+box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+display: inline-block;
+} */

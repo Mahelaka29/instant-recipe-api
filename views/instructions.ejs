@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%=title%> - Instant Recipe</title>
+
+    <link rel="stylesheet" href="../style/instructions.css" />
+  </head>
+  <body>
+    <div class="recipe-container">
+      <h1><%= title %></h1>
+      <img src="<%= image %>" alt="<%= title %>" />
+      <p><strong>Cooking Time:</strong> <%= readyInMinutes %> minutes</p>
+
+      <h2>Ingredients</h2>
+      <ul>
+        <% ingredients.forEach(ingredient => { %>
+        <li><%= ingredient.original %></li>
+        <% }); %>
+      </ul>
+
+      <h2>Instructions</h2>
+      <% if (steps.length > 0) { %>
+      <ol>
+        <% steps.forEach(step => { %>
+        <li><%= step.step %></li>
+        <% }); %>
+      </ol>
+      <% } else { %>
+      <p>No instructions available for this recipe.</p>
+      <% } %>
+
+      <hr />
+
+      <div class="button-group">
+        <a href="javascript:history.back()" class="btn"> Go Back</a>
+        <a href="/" class="btn">Go back to search</a>
+      </div>
+
+      
+    </div>
+  </body>
+</html>
