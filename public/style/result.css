@@ -6,8 +6,6 @@ body{
     justify-content:center;;
     flex-direction: column;
     padding: 20px;
-    /* height: 100vh; */
-
 }
 
 
@@ -45,25 +43,6 @@ align-items: stretch;
     flex-direction: column;
     justify-content: space-between;
 }
-/* .recipe-actions {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 10px;
-    gap: 8px;
-} */
-
-/* .recipe-card {
-    width: 250px;
-    height: 380px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    overflow: hidden;
-    background-color: #fff;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-} */
 
 .recipe-card h3 {
     margin: 16px 0 8px 0;

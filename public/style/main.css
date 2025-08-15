@@ -1,17 +1,9 @@
-/* body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif; 
-    display: flex;
-    align-items: center;
-} */
-
 html,
 body {
     height: 100%;
     margin: 0;
     padding: 0;
     overflow: hidden;
-    /* 🔥 This hides scrollbars */
 }
 
 body {
@@ -31,14 +23,6 @@ body {
     flex-direction: column;
     justify-content: center;
 }
-
-
-/* .heading-wrapper {
-    background-color: rgba(0, 0, 0, 0.4);
-    padding: 10px 30px;
-    border-radius: 8px;
-} */
-
 
 #prompt-header {
     font-size: 65px;
@@ -65,7 +49,6 @@ body {
 input[type=submit] {
     padding: 12px 30px;
     font-size: large;
-    /* text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); */
     background-color: rgb(255, 217, 0);
     outline: none;
     border: solid aliceblue 1px;
@@ -105,17 +88,3 @@ input[type=submit]:hover {
     color: gainsboro;
     text-align: center;
 }
-
-
-/* logout notification */
-/* .notification{
-background: rgba(34, 197, 94, 0.9);
-
-color: white;
-padding: 10px 20px;
-border-radius: 8px;
-margin-top: 10px;
-font-weight: bold;
-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-display: inline-block;
-} */

@@ -16,8 +16,6 @@ const app = express();
 const PORT = 3000;
 env.config();
 
-console.log("Password:", process.env.PG_PASSWORD);
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -54,7 +52,11 @@ app.get("/", (req, res) =>{
 })
 
 app.get("/search", (req, res) => {
-  res.render("index.ejs", { errorMessage: null, user: req.user });
+  res.render("index.ejs", {
+    errorMessage: null,
+    user: req.user,
+    loggedOut: req.query.loggedout === "true",
+  });
 });
 
 app.post("/search", async (req, res) =>{
@@ -64,7 +66,7 @@ app.post("/search", async (req, res) =>{
 
     try{
         const searchRes = await axios.get(
-          `https://toapi.spoonacular.com/recipes/complexSearch`,
+          `https://api.spoonacular.com/recipes/complexSearch`,
           {
             params: {
               query,
@@ -82,12 +84,14 @@ app.post("/search", async (req, res) =>{
           if (recipeList.length === 0) {
             return res.render("index.ejs", {
               errorMessage: `Can't find recipe for "${query}"`,
+              user: req.user,
+              loggedOut: req.query.loggedout === "true",
             });
           }
 
-           //to to get detailed info for each recipe
+           // to get detailed info for each recipe
             const detailPromises = recipeList.map(recipe =>
-                axios.get(`https://toapi.spoonacular.com/recipes/${recipe.id}/information`, {
+                axios.get(`https://api.spoonacular.com/recipes/${recipe.id}/information`, {
                 params: { apiKey }
             })
             );
@@ -120,8 +124,7 @@ app.post("/search", async (req, res) =>{
     }
     catch(error){
       console.error("Error in /search route:", error.message);
-      console.error("Full error:", error.response?.data || error);
-        res.render("index.ejs", { errorMessage: "Something went wrong!" });
+        res.render("index.ejs", { errorMessage: "Something went wrong!", user: req.user, loggedOut: req.query.loggedout === "true" });
     }
     
 });
@@ -133,7 +136,7 @@ app.get("/recipe/:id", async (req, res) => {
 
   try {
     const response = await axios.get(
-      `https://toapi.spoonacular.com/recipes/${recipeId}/information`,
+      `https://api.spoonacular.com/recipes/${recipeId}/information`,
       {
         params: { apiKey },
       }
@@ -155,7 +158,7 @@ app.get("/recipe/:id", async (req, res) => {
   } catch (error) {
     console.error(error.response?.data || error.message);
     console.error("Error fetching recipe instructions:", error.message);
-    res.render("index.ejs", { errorMessage: "Something went wrong!" });
+    res.render("index.ejs", { errorMessage: "Something went wrong!", user: req.user, loggedOut: req.query.loggedout === "true" });
   }
 });
 
@@ -199,7 +202,7 @@ app.post("/favourites/remove/:id", ensureAuth, async (req, res) => {
 });
 
 
-//to register
+// register
 passport.use("local",
   new LocalStrategy(
     { usernameField: "email" },
@@ -224,7 +227,7 @@ passport.use("local",
   )
 );
 
-//to show login page
+// show login page
 app.get("/login", (req, res) => {
   res.render("login.ejs", { user: req.user });
 });
@@ -244,7 +247,7 @@ app.post("/signup", async (req, res) => {
   const { email, password, username } = req.body;
 
   try {
-    //to check if user already exists
+    // check if user already exists
     const existingUser = await db.query("SELECT * FROM users WHERE email = $1", [email]);
     if (existingUser.rows.length > 0) {
       return res.render("signup.ejs", { user: req.user, errorMessage: "User already exists" });
@@ -253,13 +256,13 @@ app.post("/signup", async (req, res) => {
     //hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    //to create new user
+    // create new user
     const newUser = await db.query(
       "INSERT INTO users (email, password, username) VALUES ($1, $2, $3) RETURNING *",
       [email, hashedPassword, username]
     );
 
-    //to log in the user
+    // log in the user
     req.login(newUser.rows[0], (err) => {
       if (err) return res.render("signup.ejs", { user: req.user, errorMessage: "Signup failed" });
       res.redirect("/");
@@ -289,8 +292,8 @@ app.get("/auth/google", passport.authenticate("google", {
 app.get(
   "/auth/google/callback",
   passport.authenticate("google", {
-    failureRedirect: "/login",   //toif login fails
-    successRedirect: "/",        //toif login succeeds
+    failureRedirect: "/login",   //if login fails
+    successRedirect: "/",        //if login succeeds
   })
 );
 
@@ -302,7 +305,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://tolocalhost:3000/auth/google/callback",
+      callbackURL: "http://localhost:3000/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
@@ -316,7 +319,7 @@ passport.use(
 
         if (result.rows.length > 0) return done(null, result.rows[0]);
 
-        //to Create new user
+        // Create new user
         const newUser = await db.query(
           "INSERT INTO users (google_id, email, password, username) VALUES ($1, $2, $3, $4) RETURNING *",
           [profile.id, profile.emails[0].value, "google user", profile.displayName]
@@ -340,7 +343,6 @@ passport.deserializeUser(async (id, done) => {
   const result = await db.query("SELECT * FROM users WHERE id = $1", [id]);
   done(null, result.rows[0]);
 });
-
 
 
 app.listen(PORT, () =>{
