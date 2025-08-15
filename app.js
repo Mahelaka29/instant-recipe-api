@@ -23,7 +23,7 @@ const __dirname = path.dirname(__filename);
 //SESSION
 app.use(
   session({
-    secret: process.env.GOOGLE_CLIENT_SECRET,
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
   })
@@ -305,7 +305,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:3000/auth/google/callback",
+      callbackURL: `${process.env.BASE_URL}/auth/google/callback`,
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
@@ -314,7 +314,7 @@ passport.use(
           [profile.id]
         );
 
-        console.log("profile:" , profile);
+        console.log("profile:", profile);
         console.log("profile name", profile.displayName);
 
         if (result.rows.length > 0) return done(null, result.rows[0]);
@@ -322,7 +322,12 @@ passport.use(
         // Create new user
         const newUser = await db.query(
           "INSERT INTO users (google_id, email, password, username) VALUES ($1, $2, $3, $4) RETURNING *",
-          [profile.id, profile.emails[0].value, "google user", profile.displayName]
+          [
+            profile.id,
+            profile.emails[0].value,
+            "google user",
+            profile.displayName,
+          ]
         );
         return done(null, newUser.rows[0]);
       } catch (err) {
