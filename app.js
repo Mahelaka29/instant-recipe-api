@@ -274,12 +274,19 @@ app.post("/signup", async (req, res) => {
 });
 
 
+//logout
 app.get("/logout", (req, res, next) => {
-  req.session.destroy((err) => {
+  req.logout((err) => {
     if (err) return next(err);
-    res.redirect("/?loggedout=true");
+
+    req.session.destroy((err) => {
+      if (err) return next(err);
+      res.clearCookie("connect.sid"); // clear session cookie
+      res.redirect("/?loggedout=true");
+    });
   });
 });
+
 
 
 //start Google OAuth
