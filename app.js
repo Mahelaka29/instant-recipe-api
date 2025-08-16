@@ -305,6 +305,7 @@ app.get(
 );
 
 
+
 //google strategy
 passport.use(
   "google",
@@ -312,7 +313,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: `${process.env.BASE_URL}/auth/google/callback`,
+      callbackURL: process.env.GOOGLE_CALLBACK_URL,
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
@@ -320,9 +321,6 @@ passport.use(
           "SELECT * FROM users WHERE google_id = $1",
           [profile.id]
         );
-
-        console.log("profile:", profile);
-        console.log("profile name", profile.displayName);
 
         if (result.rows.length > 0) return done(null, result.rows[0]);
 
