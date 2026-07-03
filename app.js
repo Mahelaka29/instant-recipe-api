@@ -364,5 +364,8 @@ try {
   });
 } catch (err) {
   console.error("Database connection failed:", err.message);
+  console.error(
+    "Check Render: Postgres status is Available, DATABASE_URL uses the Internal Database URL, and web service + DB are in the same region."
+  );
   process.exit(1);
 }
