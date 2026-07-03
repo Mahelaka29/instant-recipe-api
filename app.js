@@ -355,19 +355,14 @@ passport.deserializeUser(async (id, done) => {
 });
 
 
-// app.listen(PORT, () =>{
-//     console.log(`Server listening on Port ${PORT}`);
-// })
-
 try {
   await db.connect();
-  console.log("✅ PostgreSQL connected");
+  console.log("PostgreSQL connected");
 
   app.listen(PORT, () => {
     console.log(`Server listening on Port ${PORT}`);
   });
 } catch (err) {
-  console.error("❌ Database connection failed");
-  console.error(err);
+  console.error("Database connection failed:", err.message);
   process.exit(1);
 }

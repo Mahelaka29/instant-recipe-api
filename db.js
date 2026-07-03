@@ -3,39 +3,38 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const db = new pg.Client({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-});
+function isLocal(hostOrUrl) {
+  return hostOrUrl?.includes("localhost") || hostOrUrl?.includes("127.0.0.1");
+}
+
+function buildConnectionConfig() {
+  if (process.env.DATABASE_URL) {
+    return {
+      connectionString: process.env.DATABASE_URL,
+      ...(isLocal(process.env.DATABASE_URL)
+        ? {}
+        : { ssl: { rejectUnauthorized: false } }),
+    };
+  }
+
+  if (process.env.PG_HOST) {
+    return {
+      user: process.env.PG_USER,
+      host: process.env.PG_HOST,
+      database: process.env.PG_DATABASE,
+      password: process.env.PG_PASSWORD,
+      port: process.env.PG_PORT,
+      ...(isLocal(process.env.PG_HOST)
+        ? {}
+        : { ssl: { rejectUnauthorized: false } }),
+    };
+  }
+
+  throw new Error(
+    "Database configuration missing. On Render, set DATABASE_URL to your Postgres Internal Database URL."
+  );
+}
+
+const db = new pg.Client(buildConnectionConfig());
 
 export default db;
-
-//debugging deployment render bug - 03/07/2026
-
-// import pg from "pg";
-// import env from "dotenv";
-
-// env.config();
-
-// const connectionConfig = process.env.DATABASE_URL
-//   ? {
-//       connectionString: process.env.DATABASE_URL,
-//       ...(process.env.DATABASE_URL.includes("localhost")
-//         ? {}
-//         : { ssl: { rejectUnauthorized: false } }),
-//     }
-//   : {
-//       user: process.env.PG_USER,
-//       host: process.env.PG_HOST,
-//       database: process.env.PG_DATABASE,
-//       password: process.env.PG_PASSWORD,
-//       port: process.env.PG_PORT,
-//     };
-
-// const db = new pg.Client(connectionConfig);
-
-// db.connect();
-
-// export default db;
